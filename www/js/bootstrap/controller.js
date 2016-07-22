@@ -16,10 +16,10 @@ angular.module('starter.bootstrap.controller', ['ui.bootstrap'])
     };
 
     $scope.dateOptions = {
-      formatYear: 'yy',
-      maxDate: new Date(2020, 5, 22),
-      minDate: new Date(),
-      startingDay: 1
+      formatYear: 'yyyy',
+      maxDate: new Date(2020, 12, 31),
+      minDate: new Date(2010, 1, 1),
+      startingDay: 0
     };
 
     $scope.toggleMin = function () {
