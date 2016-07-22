@@ -1,0 +1,67 @@
+<ion-view view-title="Room Booking">
+  <ion-content>
+    <button class="button button-full button-dark" ng-click="book()">Book Room</button>
+    <div data-ng-controller="DatepickerCtrl">
+      <div class="row">
+        <div class="col-md-3">
+          <p style="font-size: 18px;">Date:</p>
+        </div>
+        <div class="col-md-9">
+          <p class="input-group book-datepicker">
+            <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt"
+                   is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close"
+                   />
+            <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+          </p>
+        </div>
+      </div>
+      <h4 class="text-center">Room usage</h4>
+    </div>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td class="field-label col-xs-3 active">Room</td>
+          <td class="col-md-9">Time</td>
+          <td class="col-md-9">Party</td>
+        </tr>
+      </thead>
+      <tr>
+        <td class="field-label col-xs-3 active">
+          <label>303</label>
+        </td>
+        <td class="col-md-9">
+          10am-1pm
+        </td>
+        <td class="col-md-9">
+          Meeting
+        </td>
+      </tr>
+      <tr>
+        <td class="field-label col-xs-3 active">
+          <label> 306-7</label>
+        </td>
+        <td class="col-md-9">
+          11am-2pm
+        </td>
+        <td class="col-md-9">
+          Choir
+        </td>
+      </tr>
+      <tr>
+        <td class="field-label col-xs-3 active">
+          <label>304-5</label>
+        </td>
+        <td class="col-md-9">
+          1pm-4pm
+        </td>
+        <td class="col-md-9">
+          Boardgame
+        </td>
+      </tr>
+    </table>
+
+  </ion-content>
+</ion-view>
