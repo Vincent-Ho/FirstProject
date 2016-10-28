@@ -1,0 +1,9 @@
+<ion-view view-title="最新消息">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="news in newslist" href="#/tab/news/list/{{news.id}}">
+        {{news.title}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

@@ -51,9 +51,24 @@ angular.module('starter.controllers', [])
       {title: 'Cowbell', id: 6}
     ];
   })
-
+  .controller('NewsTabCtrl', function ($scope) {
+    $scope.newslist = [
+      {title: 'Reggae', id: 1},
+      {title: 'Chill', id: 2},
+      {title: 'Dubstep', id: 3},
+      {title: 'Indie', id: 4},
+      {title: 'Rap', id: 5},
+      {title: 'Cowbell', id: 6}
+    ];
+  })
+  .controller('HomeTabCtrl', function ($scope) {
+  })
   .controller('BookingCtrl', function ($scope) {
   })
-
+  .controller('NurtureCtrl', function ($scope, $sce) {
+    $scope.link = $sce.trustAsResourceUrl("https://info.sparrow.hk/anWebRegistration.cfm?apikey=5fdc38be-86c2-11e4-a975-c81f66cb1348");
+  })
+  .controller('NewsItemCtrl', function ($scope, $stateParams) {
+  })
   .controller('PlaylistCtrl', function ($scope, $stateParams) {
-  });
+  });;

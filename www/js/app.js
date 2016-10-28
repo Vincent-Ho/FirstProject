@@ -36,43 +36,65 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.bootstrap.co
     $ionicConfigProvider.platform.ios.views.transition('ios');
     $ionicConfigProvider.platform.android.views.transition('android');
   })
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+    $ionicConfigProvider.tabs.position('bottom');
+
     $stateProvider
 
       .state('app', {
         url: '/app',
         abstract: true,
-        templateUrl: 'templates/menu.html',
+        templateUrl: 'templates/app.html',
         controller: 'AppCtrl'
       })
-
-      .state('app.search', {
-        url: '/search',
+      .state('tabs', {
+        url: '/tab',
+        abstract: true,
+        templateUrl: 'templates/tabs.html'
+      })
+      .state('tabs.home', {
+        url: '/home',
         views: {
-          'menuContent': {
-            templateUrl: 'templates/search.html'
+          'home-tab': {
+            templateUrl: "templates/home.html",
+            controller: 'HomeTabCtrl'
           }
         }
       })
-
-      .state('app.browse', {
-        url: '/browse',
+      .state('tabs.news', {
+        url: "/news",
         views: {
-          'menuContent': {
-            templateUrl: 'templates/browse.html'
+          'news-tab': {
+            templateUrl: "templates/news.html",
+            controller: 'NewsTabCtrl'
           }
         }
       })
-      .state('app.playlists', {
-        url: '/playlists',
+      .state('tabs.profile', {
+        url: "/profile",
         views: {
-          'menuContent': {
-            templateUrl: 'templates/playlists.html',
-            controller: 'PlaylistsCtrl'
+          'profile-tab': {
+            templateUrl: "templates/profile.html"
           }
         }
       })
-      .state('app.booking', {
+      .state('tabs.about', {
+        url: "/about",
+        views: {
+          'about-tab': {
+            templateUrl: "templates/about.html"
+          }
+        }
+      })
+      .state('tabs.home.index', {
+        url: '/index',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/index.html'
+          }
+        }
+      })
+      .state('tabs.home.booking', {
         url: '/booking',
         views: {
           'menuContent': {
@@ -81,7 +103,25 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.bootstrap.co
           }
         }
       })
-      .state('app.single', {
+      .state('tabs.home.nurture', {
+        url: '/nurture',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/fulliframe.html',
+            controller : 'NurtureCtrl'
+          }
+        }
+      })
+      .state('tabs.home.playlists', {
+        url: '/playlists',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/playlists.html',
+            controller: 'PlaylistsCtrl'
+          }
+        }
+      })
+      .state('tabs.home.single', {
         url: '/playlists/:playlistId',
         views: {
           'menuContent': {
@@ -89,7 +129,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.bootstrap.co
             controller: 'PlaylistCtrl'
           }
         }
-      });
+      })
+      .state('tabs.news.single', {
+        url: '/news/:newsId',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/newsItem.html',
+            controller: 'NewsItemCtrl'
+          }
+        }
+      })
+      ;
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/playlists');
+    $urlRouterProvider.otherwise('/tab/home/index');
   });
+
