@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.bootstrap.controller'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.datepicker'])
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -47,12 +47,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.bootstrap.co
         templateUrl: 'templates/app.html',
         controller: 'AppCtrl'
       })
-      .state('tabs', {
-        url: '/tab',
-        abstract: true,
-        templateUrl: 'templates/tabs.html'
-      })
-      .state('tabs.home', {
+      .state('app.home', {
         url: '/home',
         views: {
           'home-tab': {
@@ -61,7 +56,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.bootstrap.co
           }
         }
       })
-      .state('tabs.news', {
+      .state('app.news', {
         url: "/news",
         views: {
           'news-tab': {
@@ -70,7 +65,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.bootstrap.co
           }
         }
       })
-      .state('tabs.profile', {
+      .state('app.profile', {
         url: "/profile",
         views: {
           'profile-tab': {
@@ -78,7 +73,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.bootstrap.co
           }
         }
       })
-      .state('tabs.about', {
+      .state('app.about', {
         url: "/about",
         views: {
           'about-tab': {
@@ -86,7 +81,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.bootstrap.co
           }
         }
       })
-      .state('tabs.home.index', {
+      .state('app.home.index', {
         url: '/index',
         views: {
           'menuContent': {
@@ -94,7 +89,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.bootstrap.co
           }
         }
       })
-      .state('tabs.home.booking', {
+      .state('app.home.booking', {
         url: '/booking',
         views: {
           'menuContent': {
@@ -103,7 +98,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.bootstrap.co
           }
         }
       })
-      .state('tabs.home.nurture', {
+      .state('app.home.nurture', {
         url: '/nurture',
         views: {
           'menuContent': {
@@ -112,7 +107,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.bootstrap.co
           }
         }
       })
-      .state('tabs.home.playlists', {
+      .state('app.home.playlists', {
         url: '/playlists',
         views: {
           'menuContent': {
@@ -121,7 +116,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.bootstrap.co
           }
         }
       })
-      .state('tabs.home.single', {
+      .state('app.home.single', {
         url: '/playlists/:playlistId',
         views: {
           'menuContent': {
@@ -130,17 +125,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.bootstrap.co
           }
         }
       })
-      .state('tabs.news.single', {
-        url: '/news/:newsId',
+      .state('app.news-detail', {
+        url: '/news/:newsid',
         views: {
-          'menuContent': {
-            templateUrl: 'templates/newsItem.html',
+          'news-tab': {
+            templateUrl: 'templates/newsDetail.html',
             controller: 'NewsItemCtrl'
           }
         }
       })
       ;
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/home/index');
+    $urlRouterProvider.otherwise('/app/home/index');
   });
 

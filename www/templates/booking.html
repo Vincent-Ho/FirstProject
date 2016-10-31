@@ -2,19 +2,14 @@
   <ion-content>
     <button class="button button-full button-dark" ng-click="book()">Book Room</button>
     <div data-ng-controller="DatepickerCtrl">
-      <p class="input-group form-inline book-datepicker">
+      <h4 class="text-center">{{dt | date : format }}
+        <button type="button" class="btn btn-default" ng-click="openDatePicker()"><i
+          class="icon ion-calendar"></i></button>
+      </h4>
 
-        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" id="date-field"
-               is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close"
-        />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
-        </span>
-      </p>
-      <h4 class="text-center">{{dt | date : format }}</h4>
+
       <h4 class="text-center">Room usage</h4>
     </div>
-
     <table class="table table-bordered">
       <thead>
       <tr>

@@ -51,15 +51,70 @@ angular.module('starter.controllers', [])
       {title: 'Cowbell', id: 6}
     ];
   })
-  .controller('NewsTabCtrl', function ($scope) {
-    $scope.newslist = [
-      {title: 'Reggae', id: 1},
-      {title: 'Chill', id: 2},
-      {title: 'Dubstep', id: 3},
-      {title: 'Indie', id: 4},
-      {title: 'Rap', id: 5},
-      {title: 'Cowbell', id: 6}
+  .factory('News', function ($http) {
+    var data = [
+      {
+        title: '教會事工',
+        id: 1,
+        date: '2016/10/23',
+        detail: '社宣探訪—十月份宣教部分別探訪獨居長者(25/10)、花園街大飯堂(28/10)及愛與光明行動(30/10)。讓主的愛延伸至旺角的鄰舍。'
+      },
+      {title: '世道人心', id: 2, date: '2016/10/23', detail: '新一屆立法會—新議員宣誓的亂局未能解決，求上主憐憫，盼望民生議題不會因政治角力而被犧牲。'},
+      {title: '同工消息', id: 3, date: '2016/10/30', detail: '唐力行傳道將於1-13/11休假。'},
+      {
+        title: '第4季培育課程',
+        id: 4,
+        date: '2016/10/30',
+        detail: '「靜中塑心靈」(11/11開課)課程仍接受報名，填妥報名表後可放2B收集箱，或到《活石網頁》→「培育專線」→「本季課程」→網上報名。查詢：吳錫泉傳道。'
+      },
+      {title: '書籍訂購', id: 5, date: '2016/10/30', detail: '已訂購十一月份《活潑的生命》或《清晨國度》者，請到副堂取書。'},
+      {
+        title: '招募詩班員',
+        id: 6,
+        date: '2016/10/30',
+        detail: '活石詩班為能使更多弟兄姊妹參與，現於11-12月有短期的男女聲分部獻詩，練習為主日早堂時段，男聲為6/11、13/11及20/11(獻詩)，女聲為13/11、20/11、4/12及11/12(獻詩)。歡迎弟兄姊妹報名參加，可聯絡周冠華弟兄或劉寶珠姊妹。'
+      }
     ];
+
+    function getData(newsName, callback) {
+
+      // var url = 'http://api.themoviedb.org/3/',
+      //   mode = 'search/movie?query=',
+      //   name = '&query=' + encodeURI(moviename),
+      //   key = '&api_key=470fd2ec8853e25d2f8d86f685d2270e';
+      //
+      // $http.get(url + mode + key + name).success(function(data) {
+      //
+      //   cachedData = data.results;
+      //   callback(data.results);
+      // });
+      callback(data);
+    }
+
+    return {
+      list: getData,
+      find: function (id, callback) {
+        console.log(id);
+        var newsItem = data.filter(function (entry) {
+          return entry.id == id;
+        })[0];
+        callback(newsItem);
+      }
+    };
+
+  })
+
+  .controller('NewsTabCtrl', function ($scope, $http, News) {
+    $scope.item = {
+      title: ''
+    }
+    $scope.searchNews = function () {
+      News.list($scope.item.title, function (newslists) {
+        $scope.newslists = newslists;
+      });
+
+    };
+    $scope.searchNews();
   })
   .controller('HomeTabCtrl', function ($scope) {
   })
@@ -68,7 +123,12 @@ angular.module('starter.controllers', [])
   .controller('NurtureCtrl', function ($scope, $sce) {
     $scope.link = $sce.trustAsResourceUrl("https://info.sparrow.hk/anWebRegistration.cfm?apikey=5fdc38be-86c2-11e4-a975-c81f66cb1348");
   })
-  .controller('NewsItemCtrl', function ($scope, $stateParams) {
+  .controller('NewsItemCtrl', function ($scope, $http, $stateParams, News) {
+    console.log($stateParams.newsid);
+    News.find($stateParams.newsid, function (item) {
+      $scope.item = item;
+    });
   })
   .controller('PlaylistCtrl', function ($scope, $stateParams) {
-  });;
+  });
+;
