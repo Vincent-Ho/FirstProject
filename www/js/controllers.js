@@ -174,7 +174,6 @@ angular.module('starter.controllers', ['ngCordova'])
       try {
         $scope.media = $cordovaMedia.newMedia(src, null, null, mediaStatusCallback);
       } catch (e) {
-        $scope.media = new Media(src, null, null, mediaStatusCallback);
       }
     });
     $scope.play = function () {
