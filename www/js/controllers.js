@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ngCordova'])
 
   .controller('AppCtrl', function ($scope, $ionicModal, $timeout) {
 
@@ -50,6 +50,34 @@ angular.module('starter.controllers', [])
       {title: 'Rap', id: 5},
       {title: 'Cowbell', id: 6}
     ];
+  })
+  .factory('Sermons', function ($http) {
+    var data = [
+      {title: '萬勿錯過', id: 1, date: '2016/11/06', speaker: '羅雯霏牧師', mp3: "201611/L20161106.mp3"},
+      {title: '青崇: 萬勿錯過！', id: 2, date: '2016/11/05', speaker: '羅雯霏牧師', mp3: "201611/L20161105.mp3"},
+      {title: '信心的躁鬱', id: 3, date: '2016/10/30', speaker: '王少勇牧師', mp3: "201610/L20161030.mp3"},
+      {title: '青崇：我信上帝!?', id: 4, date: '2016/10/29', speaker: '吳錫泉傳道', mp3: "201610/L20161029.mp3"},
+      {title: '來！靠近祂', id: 5, date: '2016/10/23', speaker: '丘衛文傳道', mp3: "201610/L20161023.mp3"},
+      {title: '青崇: 讀經攻略', id: 6, date: '2016/10/22', speaker: '黃偉健傳道', mp3: "201610/L20161022.mp3"}
+    ];
+
+    function getData() {
+      return data;
+    }
+
+    return {
+      list: getData,
+      find: function (id, callback) {
+        var sermon = data.filter(function (entry) {
+          return entry.id == id;
+        })[0];
+        callback(sermon);
+      }
+    };
+
+  })
+  .controller('SermonReviseCtrl', function ($scope, Sermons) {
+    $scope.reviseList = Sermons.list();
   })
   .factory('News', function ($http) {
     var data = [
@@ -128,6 +156,44 @@ angular.module('starter.controllers', [])
     News.find($stateParams.newsid, function (item) {
       $scope.item = item;
     });
+  })
+  .controller('SermonCtrl', function ($scope, Sermons, $stateParams, $cordovaMedia, $ionicLoading) {
+    var mediaStatusCallback = function (status) {
+      if (status == Media.MEDIA_STARTING) {
+        $ionicLoading.show({
+          template: "Loading..."
+        });
+      } else {
+        $ionicLoading.hide();
+      }
+    }
+
+    Sermons.find($stateParams.sermonid, function (item) {
+      $scope.item = item;
+      var src = "http://ourlivingstones.net/sermons/" + item.mp3;
+      try {
+        $scope.media = $cordovaMedia.newMedia(src, null, null, mediaStatusCallback);
+      } catch (e) {
+        $scope.media = new Media(src, null, null, mediaStatusCallback);
+      }
+    });
+    $scope.play = function () {
+      var iOSPlayOptions = {
+        numberOfLoops: 2,
+        playAudioWhenScreenIsLocked: false
+      }
+
+      $scope.media.play(iOSPlayOptions); // iOS only!
+      $scope.media.play(); // Android
+    }
+
+    $scope.pause = function () {
+      $scope.media.pause();
+    }
+
+    $scope.stop = function () {
+      $scope.media.stop();
+    }
   })
   .controller('PlaylistCtrl', function ($scope, $stateParams) {
   });

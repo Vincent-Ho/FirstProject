@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.datepicker'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.datepicker', 'ngCordova'])
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -49,6 +49,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.datepicker']
       })
       .state('app.home', {
         url: '/home',
+        abstract: true,
         views: {
           'home-tab': {
             templateUrl: "templates/home.html",
@@ -122,6 +123,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.datepicker']
           'menuContent': {
             templateUrl: 'templates/playlist.html',
             controller: 'PlaylistCtrl'
+          }
+        }
+      })
+      .state('app.home.revise', {
+        url: '/revise',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/revise.html',
+            controller: 'SermonReviseCtrl'
+          }
+        }
+      })
+      .state('app.home.sermon', {
+        url: '/revise/:sermonid',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/sermon.html',
+            controller: 'SermonCtrl'
           }
         }
       })

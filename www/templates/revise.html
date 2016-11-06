@@ -1,0 +1,11 @@
+<ion-view view-title="祟拜重溫">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="item in reviseList" href="#/app/home/revise/{{item.id}}">
+        <h2><b>{{item.date}} {{item.title}}</b></h2>
+        <h4>{{item.speaker}}</h4>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
+
