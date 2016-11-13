@@ -1,0 +1,57 @@
+<ion-view view-title="地方使用">
+  <ion-content>
+    <button class="button button-full button-dark" ng-click="book()">Book Room</button>
+    <div data-ng-controller="DatepickerCtrl">
+      <h4 class="text-center">{{dt | date : format }}
+        <button type="button" class="btn btn-default" ng-click="openDatePicker()"><i
+          class="icon ion-calendar"></i></button>
+      </h4>
+
+
+      <h4 class="text-center">Room usage</h4>
+    </div>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <td class="field-label col-md-3 active">Room</td>
+        <td class="col-md-3">Time</td>
+        <td class="col-md-6">Party</td>
+      </tr>
+      </thead>
+      <tr>
+        <td class="field-label col-md-3 active">
+          <label>303</label>
+        </td>
+        <td class="col-md-3">
+          10am-1pm
+        </td>
+        <td class="col-md-6">
+          Meeting
+        </td>
+      </tr>
+      <tr>
+        <td class="field-label col-md-3 active">
+          <label> 306-7</label>
+        </td>
+        <td class="col-md-3">
+          11am-2pm
+        </td>
+        <td class="col-md-6">
+          Choir
+        </td>
+      </tr>
+      <tr>
+        <td class="field-label col-md-3 active">
+          <label>304-5</label>
+        </td>
+        <td class="col-md-3">
+          1pm-4pm
+        </td>
+        <td class="col-md-6">
+          Boardgame
+        </td>
+      </tr>
+    </table>
+
+  </ion-content>
+</ion-view>
