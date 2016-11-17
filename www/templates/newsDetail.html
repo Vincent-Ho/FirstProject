@@ -1,21 +1,9 @@
-<ion-view title="News Details">
+<ion-view title="{{news.title}}">
   <ion-nav-bar class="bar-stable">
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <div class="list card">
-
-      <div class="item item-avatar">
-        <!--<img src="http://files.softicons.com/download/object-icons/movies-icons-by-pinchodesigns/png/32x32/Movie.png">-->
-        <h2>{{item.title}}</h2>
-        <p>{{item.date}}</p>
-      </div>
-
-      <p>
-        {{item.detail}}
-      </p>
-
-    </div>
+      <div ng-bind-html="content"></div>
   </ion-content>
 </ion-view>

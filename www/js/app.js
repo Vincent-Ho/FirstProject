@@ -144,8 +144,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.datepicker',
           }
         }
       })
+      .state('app.news-category', {
+        url: '/news/:catid',
+        views: {
+          'news-tab': {
+            templateUrl: 'templates/newsCategory.html',
+            controller: 'NewsCatCtrl'
+          }
+        }
+      })
       .state('app.news-detail', {
-        url: '/news/:newsid',
+        url: '/news/:catid/:newsid',
         views: {
           'news-tab': {
             templateUrl: 'templates/newsDetail.html',

@@ -1,54 +1,57 @@
 <ion-view view-title="地方使用">
-  <div id="gridHeader" class="grid-header"
-       ng-style="{'overflow': 'false', 'width' : '100%', 'left':'-'+timerleft}">
-    <div class="grid-header-clock" style="left: 0px;">
-      <div data-ng-controller="DatepickerCtrl">
-        <h4 class="text-center">{{dt | date : format }}
-          <button type="button" class="btn btn-default" ng-click="openDatePicker()"><i
-            class="icon ion-calendar"></i></button>
-        </h4>
-      </div>
+  <ion-content>
+    <button class="button button-full button-dark" ng-click="book()">Book Room</button>
+    <div data-ng-controller="DatepickerCtrl">
+      <h4 class="text-center">{{dt | date : format }}
+        <button type="button" class="btn btn-default" ng-click="openDatePicker()"><i
+          class="icon ion-calendar"></i></button>
+      </h4>
+
+
+      <h4 class="text-center">Room usage</h4>
     </div>
-    <div class="grid-header-labels" ng-repeat="room in rooms">
-      <div class="grid-header-label">{{room.name}}
-        <div class="grid-header-label-divider"></div>
-      </div>
-
-    </div>
-
-  </div>
-  <ion-content scroll="true" direction="xy" has-bouncing="false" on-scroll="gotScrolled()">
-    <div id="gridBody" class="grid-body ui-block">
-      <div style="position:relative" ng-repeat="day in days">
-        <div id="gridTimesHolder" class="grid-times-holder" ng-style="{'left':timerleft}">
-          <div class="day-label">{{day.day.substr(0, 3)}}</div>
-          <div class="grid-times" ng-repeat="hour in hours">
-            <div class="grid-time-label">{{hour}}</div>
-          </div>
-        </div>
-        <div class="grid-sessions" ng-style="{'height' : (50 * hours.length + 24) + 'px'}">
-          <div class="grid-sessions-day" ng-style="{'overflow': 'true', 'width' : (130 * rooms.length + 60) + 'px'}"
-          >
-            <div ng-repeat="event in events| filter:{ dateformat: day.dateformat}">
-              <div class="grid-session-cell"
-                   ng-style="{'top':event.top, 'left':event.left, 'height':event.height, 'background-color':event.color}">
-                <i class="icon  grid-session-icon" ng-class="event.eventtype"></i>
-                <div class="grid-session-title">{{event.eventname}}</div>
-                <div class="grid-session-time">{{event.starthour}}-{{event.endhour}}</div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="grid-date-holder" ng-style="{'overflow': 'true', 'width' : (200 * rooms.length) + 'px'}">
-          <div class="day-label">{{day.longdate}}</div>
-
-        </div>
-
-      </div>
-
-    </div>
-
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <td class="field-label col-md-3 active">Room</td>
+        <td class="col-md-3">Time</td>
+        <td class="col-md-6">Party</td>
+      </tr>
+      </thead>
+      <tr>
+        <td class="field-label col-md-3 active">
+          <label>303</label>
+        </td>
+        <td class="col-md-3">
+          10am-1pm
+        </td>
+        <td class="col-md-6">
+          Meeting
+        </td>
+      </tr>
+      <tr>
+        <td class="field-label col-md-3 active">
+          <label> 306-7</label>
+        </td>
+        <td class="col-md-3">
+          11am-2pm
+        </td>
+        <td class="col-md-6">
+          Choir
+        </td>
+      </tr>
+      <tr>
+        <td class="field-label col-md-3 active">
+          <label>304-5</label>
+        </td>
+        <td class="col-md-3">
+          1pm-4pm
+        </td>
+        <td class="col-md-6">
+          Boardgame
+        </td>
+      </tr>
+    </table>
 
   </ion-content>
 </ion-view>

@@ -4,15 +4,10 @@
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <label class="item item-input">
-      <i class="icon ion-search placeholder-icon"></i>
-      <input type="search" placeholder="Search" ng-model="item.title" ng-change="searchNews()">
-    </label>
     <div class="list">
-      <a ng-repeat="item in newslists" href="#/app/news/{{item.id}}" class="item item-thumbnail-left">
+      <a ng-repeat="cat in catList" href="#/app/news/{{cat.id}}" class="item item-thumbnail-left">
         <!--<img ng-src="https://image.tmdb.org/t/p/w92{{movie.poster_path}}" onerror="this.src = 'https://www.ginesisnatural.com/images/no_image.jpg';">-->
-        <h2>{{item.title}}</h2>
-        <h4>{{item.date}}</h4>
+        <h1>{{cat.title}}</h1>
       </a>
     </div>
   </ion-content>
