@@ -24,11 +24,11 @@ angular.module('starter.datepicker', ['ionic', 'ionic-datepicker'])
     $scope.dt = new Date();
     $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
     $scope.format = $scope.formats[0];
-
+    $scope.$emit('child', $scope.dt);
     var ipObj1 = {
       callback: function (val) {  //Mandatory
-        console.log('Return value from the datepicker popup is : ' + val, new Date(val));
         $scope.dt = new Date(val);
+        $scope.$emit('child', $scope.dt); // going up!
       },
       disabledDates: [            //Optional
         new Date(2016, 2, 16),
@@ -43,7 +43,7 @@ angular.module('starter.datepicker', ['ionic', 'ionic-datepicker'])
       to: new Date(2016, 10, 30), //Optional
       inputDate: new Date(),      //Optional
       mondayFirst: true,          //Optional
-      disableWeekdays: [0],       //Optional
+      disableWeekdays: [],       //Optional
       closeOnSelect: true,       //Optional
       templateType: 'popup'       //Optional
     };

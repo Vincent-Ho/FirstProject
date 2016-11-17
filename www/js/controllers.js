@@ -41,16 +41,6 @@ angular.module('starter.controllers', ['ngCordova'])
     };
   })
 
-  .controller('PlaylistsCtrl', function ($scope) {
-    $scope.playlists = [
-      {title: 'Reggae', id: 1},
-      {title: 'Chill', id: 2},
-      {title: 'Dubstep', id: 3},
-      {title: 'Indie', id: 4},
-      {title: 'Rap', id: 5},
-      {title: 'Cowbell', id: 6}
-    ];
-  })
   .factory('Sermons', function ($http) {
     var data = [
       {title: '萬勿錯過', id: 1, date: '2016/11/06', speaker: '羅雯霏牧師', mp3: "201611/L20161106.mp3"},
@@ -79,58 +69,6 @@ angular.module('starter.controllers', ['ngCordova'])
   .controller('SermonReviseCtrl', function ($scope, Sermons) {
     $scope.reviseList = Sermons.list();
   })
-  .factory('News', function ($http) {
-    var data = [
-      {
-        title: '教會事工',
-        id: 1,
-        date: '2016/10/23',
-        detail: '社宣探訪—十月份宣教部分別探訪獨居長者(25/10)、花園街大飯堂(28/10)及愛與光明行動(30/10)。讓主的愛延伸至旺角的鄰舍。'
-      },
-      {title: '世道人心', id: 2, date: '2016/10/23', detail: '新一屆立法會—新議員宣誓的亂局未能解決，求上主憐憫，盼望民生議題不會因政治角力而被犧牲。'},
-      {title: '同工消息', id: 3, date: '2016/10/30', detail: '唐力行傳道將於1-13/11休假。'},
-      {
-        title: '第4季培育課程',
-        id: 4,
-        date: '2016/10/30',
-        detail: '「靜中塑心靈」(11/11開課)課程仍接受報名，填妥報名表後可放2B收集箱，或到《活石網頁》→「培育專線」→「本季課程」→網上報名。查詢：吳錫泉傳道。'
-      },
-      {title: '書籍訂購', id: 5, date: '2016/10/30', detail: '已訂購十一月份《活潑的生命》或《清晨國度》者，請到副堂取書。'},
-      {
-        title: '招募詩班員',
-        id: 6,
-        date: '2016/10/30',
-        detail: '活石詩班為能使更多弟兄姊妹參與，現於11-12月有短期的男女聲分部獻詩，練習為主日早堂時段，男聲為6/11、13/11及20/11(獻詩)，女聲為13/11、20/11、4/12及11/12(獻詩)。歡迎弟兄姊妹報名參加，可聯絡周冠華弟兄或劉寶珠姊妹。'
-      }
-    ];
-
-    function getData(newsName, callback) {
-
-      // var url = 'http://api.themoviedb.org/3/',
-      //   mode = 'search/movie?query=',
-      //   name = '&query=' + encodeURI(moviename),
-      //   key = '&api_key=470fd2ec8853e25d2f8d86f685d2270e';
-      //
-      // $http.get(url + mode + key + name).success(function(data) {
-      //
-      //   cachedData = data.results;
-      //   callback(data.results);
-      // });
-      callback(data);
-    }
-
-    return {
-      list: getData,
-      find: function (id, callback) {
-        console.log(id);
-        var newsItem = data.filter(function (entry) {
-          return entry.id == id;
-        })[0];
-        callback(newsItem);
-      }
-    };
-
-  })
 
   .controller('NewsTabCtrl', function ($scope, $http, Category) {
     $scope.rootCatId = 94;
@@ -143,8 +81,56 @@ angular.module('starter.controllers', ['ngCordova'])
   })
   .controller('HomeTabCtrl', function ($scope) {
   })
-  .controller('BookingCtrl', function ($scope) {
-  })
+  .controller('BookingCtrl', function ($scope, Room, $ionicPopup) {
+      $scope.bookingList = [];
+      $scope.refresh = function (date) {
+        Room.getByDate(date, function (events) {
+          $scope.bookingList = events;
+        });
+      };
+      $scope.$on('child', function (event, date) {
+        $scope.date = date;
+        $scope.refresh(date);
+      });
+
+      $scope.book = function () {
+        // showpopup method code
+        $scope.data = {};
+        var date = Room.formatDate($scope.date);
+        var myPopup = $ionicPopup.show({
+          template: 'Name <input type="text" ng-model="data.userName">   <br> Number of users  <input type="number" ng-model="data.userCount" >  <br> Purpose  <textarea rows="4" cols="50" ng-model="data.purpose" >',
+          title: 'Book room on ' + date,
+          subTitle: 'Please fill all fields',
+          scope: $scope,
+          buttons: [{
+            text: 'Cancel'
+          }, {
+            text: '<b>Submit</b>',
+            type: 'button-positive',
+            onTap: function (e) {
+              if (!$scope.data.userPassword) {
+                //don't allow the user to close unless unless all fields filled
+                e.preventDefault();
+              } else {
+                return $scope.data;
+              }
+            }
+          }]
+        });
+        myPopup.then(function (res) {
+          if (res) {
+            if (res.userPassword == res.confirmPassword) {
+              console.log('Password Is Ok');
+            } else {
+              console.log('Password not matched');
+            }
+          } else {
+            console.log('Enter password');
+          }
+        });
+      }
+    }
+  )
   .controller('NurtureCtrl', function ($scope, $sce) {
     $scope.link = $sce.trustAsResourceUrl("https://info.sparrow.hk/anWebRegistration.cfm?apikey=5fdc38be-86c2-11e4-a975-c81f66cb1348");
   })
@@ -155,15 +141,16 @@ angular.module('starter.controllers', ['ngCordova'])
     $scope.newslists = [];
     $scope.allList = [];
     $scope.catId = $stateParams.catid;
-    Article.listById($scope.catId, function (newslists){
+    Article.listById($scope.catId, function (newslists) {
       $scope.allList = newslists;
       $scope.newslists = newslists;
     });
 
 
-    $scope.searchNews = function () {
-
-
+    $scope.searchNews = function (keyword) {
+      $scope.newslists = $scope.allList.filter(function (entry) {
+        return entry.title.indexOf(keyword) > -1;
+      });
     };
   })
   .controller('NewsItemCtrl', function ($scope, $stateParams, Article) {
@@ -176,7 +163,8 @@ angular.module('starter.controllers', ['ngCordova'])
       $scope.content = news.content;
     });
   })
-  .filter('searchNews', function(){
+  .filter('searchNews', function () {
+
     return function (items, query) {
       var filtered = [];
       var letterMatch = new RegExp(query, 'i');
@@ -230,8 +218,6 @@ angular.module('starter.controllers', ['ngCordova'])
       $scope.media.stop();
     }
   })
-  .controller('PlaylistCtrl', function ($scope, $stateParams) {
-  })
   .factory('Category', function ($http) {
     var url = 'http://ourlivingstones.net/?option=com_jbackend';
 
@@ -242,7 +228,7 @@ angular.module('starter.controllers', ['ngCordova'])
     function getList(catid, callback) {
       $http.get(url + '&action=get&module=content&resource=categories&rootid=' + catid).success(function (data) {
         callback(build(data));
-      }).error(function(){
+      }).error(function () {
         callback([
           {
             "id": "2",
@@ -295,7 +281,7 @@ angular.module('starter.controllers', ['ngCordova'])
     function getArticle(id, callback) {
       $http.get(url + '&action=get&module=content&resource=articles&id=' + id).success(function (data) {
         callback(build(data));
-      }).error(function(){
+      }).error(function () {
         callback({
           "id": "2165",
           "title": "堂會消息 2016/11/13",
@@ -308,7 +294,7 @@ angular.module('starter.controllers', ['ngCordova'])
     function getList(catid, callback) {
       $http.get(url + '&action=get&module=content&resource=articles&limit=10&catid=' + catid).success(function (data) {
         callback(data.articles);
-      }).error(function(){
+      }).error(function () {
         callback([
           {
             "id": "2165",
@@ -336,28 +322,73 @@ angular.module('starter.controllers', ['ngCordova'])
 
     return {
       getById: getArticle,
-      listById : getList
+      listById: getList
     };
   })
   .factory('Room', function ($http) {
-      var data = {};
+    var data = {};
 
-      var staticDate = {
-        "17/11/2016" : [],
-        "18/11/2016" : [],
-        "19/11/2016" : [],
-        "20/11/2016" : []
-      }
+    var staticData = {
+      "13/11/2016": [{
+        'eventname': '樂盈天地練歌',
+        'starthour': '08:15',
+        'endhour': '08:45',
+        'room': '正堂'
+      }, {
+        'eventname': '活石詩班練歌',
+        'starthour': '09:00',
+        'endhour': '11:10',
+        'room': '304-305'
+      }, {
+        'eventname': '金禧特刊會議',
+        'starthour': '14:30',
+        'endhour': '17:30',
+        'room': '304-305'
+      }],
+      "18/11/2016": [{
+        'eventname': '金禧堂慶籌委會',
+        'starthour': '19:00',
+        'endhour': '21:00',
+        'room': '304-305'
+      }],
+      "19/11/2016": [],
+      "20/11/2016": [{
+        'eventname': '祝福團',
+        'starthour': '13:00',
+        'endhour': '16:00',
+        'room': '310'
+      }, {
+        'eventname': '心憩處',
+        'starthour': '14:00',
+        'endhour': '16:00',
+        'room': '正堂'
+      }, {
+        'eventname': '約談(丘)',
+        'starthour': '15:00',
+        'endhour': '17:00',
+        'room': '304-305'
+      }]
+    };
 
-      function getBooking(date){
-        var dateStr = formatDate(date);
-        if (date[dateStr] == null){
-          date[dateStr] = {};
-        }
+    function getBooking(date, callback) {
+      var dateStr = formatDate(date);
+      // do some url
+      if (data == null || data[dateStr] == null) {
+        data = staticData;
       }
+      callback(data[dateStr]);
+    }
 
-      function formatDate(date){
-        return (date.getDate()) + '/' + (date.getMonth() + 1) + '/' + (date.getYear());
+    function formatDate(date) {
+      if (date == null) {
+        date = new Date();
       }
+      return (date.getDate()) + '/' + (date.getMonth() + 1) + '/' + (date.getFullYear());
+    }
+
+    return {
+      getByDate: getBooking,
+      formatDate: formatDate
+    };
   })
 ;

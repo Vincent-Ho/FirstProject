@@ -108,24 +108,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.datepicker',
           }
         }
       })
-      .state('app.home.playlists', {
-        url: '/playlists',
-        views: {
-          'menuContent': {
-            templateUrl: 'templates/playlists.html',
-            controller: 'PlaylistsCtrl'
-          }
-        }
-      })
-      .state('app.home.single', {
-        url: '/playlists/:playlistId',
-        views: {
-          'menuContent': {
-            templateUrl: 'templates/playlist.html',
-            controller: 'PlaylistCtrl'
-          }
-        }
-      })
       .state('app.home.revise', {
         url: '/revise',
         views: {
